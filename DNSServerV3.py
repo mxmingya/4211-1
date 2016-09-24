@@ -22,7 +22,6 @@ def main():
 
 	try:
 		#bind socket to the current address on port 5001,
-		#TODO:look for host name in directory first
 		s.bind((HOST, PORT))
 		s.listen(20)
 	except error as msg:
@@ -44,6 +43,7 @@ def main():
 		connectionSock, addr = s.accept()
 		server = threading.Thread(target=dnsQuery, args=[connectionSock, addr[0]])
 		server.start()
+		monitorQuit()
 
 def dnsQuery(connectionSock, srcAddress):
 	#read line by line from the client host
