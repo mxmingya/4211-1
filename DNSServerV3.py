@@ -7,6 +7,7 @@ from socket import *
 import os.path
 
 PORT = 5001
+HOST = ''
 def main():
 
 	try:
@@ -22,9 +23,8 @@ def main():
 	try:
 		#bind socket to the current address on port 5001,
 		#TODO:look for host name in directory first
-		host = s.gethostbyname()#if local hostname is not found in the directory
-		s.bind((host, PORT))
-		s.listen(20)#Listen on the given socket maximum number of connections queued is 20
+		s.bind((HOST, PORT))
+		s.listen(20)
 	except error as msg:
 		# Handle exception
 		print("Error: cannot bind socket to the port")
@@ -50,11 +50,12 @@ def dnsQuery(connectionSock, srcAddress):
 	#Begin to check the query
 	#If the query is "hangup" close the socket
 	#Extract domain name.
+	domainName = ''
 	with connectionSock:
 		print('Connected by', srcAddress)
 		while True:
 			query = connectionSock.recv(1024)
-			#create the local directory if doesnt exist
+			#create the local DNS directory if doesnt exist
 			if not os.path.isfile("DNS Mapping.txt"):
 				file = open("DNS Mapping.txt", "a")
 			if not query:
@@ -69,15 +70,32 @@ def dnsQuery(connectionSock, srcAddress):
 				#parse the query and shoot
 				domainName = query
 	try:
-		#First, check local DNS which is a file you created when the first query was successfully resolved(e.g. DNS_mapping.txt)
-		#If you find the result in this file, return the result with the appropriate format to the client
+		#First, check local DNS If you find the result in this file, return the result with the appropriate format to the client
 	    	#If the host name was not found in the local DNS file ,use the local machine DNS lookup and if found return it to the client
 			#also add the result to the local DNS file
-		for line in file:#TODO:check if the file is here
-			
+		ip = ''
+		try:
+			lines = file.readlines()
+		except:
+			print('Local directory is empty')
+		for line in lines:
+			if domainName in line:
+				ip = line.split(':')
+				output = "Local DNS:{}:{}".format(domainName, ip[1])
+				connectionSock.sendall(output)
+		#is the ip isnt found in the local file, we look up online
+		if ip is '':
+			try:
+				ip = gethostbyname(domainName)
+				if len(ip) >  0:
+					#we found the hostname in the DNS server
+					output = 'Root DNS:{}:{}'.format(domainName, ip)
+					connectionSock.sendall(output)
 	except:
 		#If the host name was not found, return "Host Not Found to the client"
+		print("Host Not Found to the client")
 	#Close the server socket
+	connectionSock.close()
 
 def monitorQuit():
 	while 1:
