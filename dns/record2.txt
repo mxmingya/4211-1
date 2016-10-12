@@ -1,0 +1,41 @@
+Script started on Mon Oct 10 23:55:24 2016
+[?1034hbash-3.2$ python3 DNSClientV3.py 
+Type in a domain name to query, or 'q' to quit:
+facebook.com
+Received: Local DNS:facebook.com:69.171.230.68
+
+Type in a domain name to query, or 'q' to quit:
+google.com
+Received: Local DNS:google.com:172.217.4.238
+
+Type in a domain name to query, or 'q' to quit:
+microsoft.com
+Received: Local DNS:microsoft.com:191.239.213.197
+
+Type in a domain name to query, or 'q' to quit:
+leetcode.com
+Received: Root DNS:leetcode.com:74.82.5.168
+Type in a domain name to query, or 'q' to quit:
+google.com
+Received: Local DNS:google.com:172.217.4.238
+
+Type in a domain name to query, or 'q' to quit:
+micro     store.google.com
+Received: Root DNS:store.google.com:216.58.192.142
+Type in a domain name to query, or 'q' to quit:
+moodle.umn.edu
+Received: Root DNS:moodle.umn.edu:134.84.159.64
+Type in a domain name to query, or 'q' to quit:
+umn.edu
+Received: Root DNS:umn.edu:134.84.119.7
+Type in a domain name to query, or 'q' to quit:
+github.com
+Received: Root DNS:github.com:192.30.253.112
+Type in a domain name to query, or 'q' to quit:
+uber.com
+Received: Root DNS:uber.com:104.36.192.182
+Type in a domain name to query, or 'q' to quit:
+airbnb.com
+Received: Root DNS:airbnb.com:23.23.138.78
+Type in a domain name to query, or 'q' to quit:
+r exit    

@@ -1,0 +1,12 @@
+facebook.com:69.171.230.68
+www.google.com:216.58.192.228
+google.com:172.217.4.238
+microsoft.com:191.239.213.197
+:0.0.0.0
+leetcode.com:74.82.5.168
+store.google.com:216.58.192.142
+moodle.umn.edu:134.84.159.64
+umn.edu:134.84.119.7
+github.com:192.30.253.112
+uber.com:104.36.192.182
+airbnb.com:23.23.138.78
