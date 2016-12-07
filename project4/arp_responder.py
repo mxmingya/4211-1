@@ -34,7 +34,8 @@ def _handle_PacketIn (event):
             ether.src = table[packet.payload.protodst]#<requested mac address>
             ether.payload = arp_reply
             #send this packet to the switch
-            msg = of.ofp_packet_out(data = ether.pack())
+            msg = of.ofp_packet_out()
+            msg.data = ether.pack()
             msg.actions.append(of.ofp_action_output(port = event.ofp.in_port))
             event.connection.send(msg)
 
