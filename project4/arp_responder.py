@@ -1,5 +1,7 @@
 from pox.core import core
 import pox.openflow.libopenflow_01 as of
+import pox.lib.packet as pkt
+
 
 
 # Even a simple usage of the logger is much nicer than print!
@@ -20,25 +22,27 @@ def _handle_PacketIn (self, event):
     if packet.type == packet.ARP_TYPE:
         if packet.payload.opcode == arp.REQUEST:
 
-            packet_in 
-
             arp_reply = arp()
-            arp_reply.hwsrc = <requested mac address>
+            arp_reply.hwsrc = table[packet.payload.protodst]#<requested mac address>
             arp_reply.hwdst = packet.src
             arp_reply.opcode = arp.REPLY
-            arp_reply.protosrc = <IP of requested mac-associated machine>
+            arp_reply.protosrc = packet.payload.protodst#<IP of requested mac-associated machine>
             arp_reply.protodst = packet.payload.protosrc
             ether = ethernet()
             ether.type = ethernet.ARP_TYPE
             ether.dst = packet.src
-            ether.src = <requested mac address>
+            ether.src = table[packet.payload.protodst]#<requested mac address>
             ether.payload = arp_reply
             #send this packet to the switch
+            msg = of.ofp_packet_out(data = ether.pack())
+            msg.actions.append(of.ofp_action_output(port = event.ofp.in_port))
+            event.connection.send(msg)
+
             #see section below on this topic
         elif packet.payload.opcode == arp.REPLY:
             print "It's a reply; do something cool"
         else:
-            print "Some other ARP opcode, probably 
+            print "Some other ARP opcode, probably do something smart here"
 
 # check if the entry is in the table or not
 # if it's not in the table, add an entry to the table
