@@ -1,7 +1,7 @@
 from pox.core import core
 import pox.openflow.libopenflow_01 as of
 import pox.lib.packet as pkt
-
+import pox.lib.packet.arp as arp
 
 
 # Even a simple usage of the logger is much nicer than print!
@@ -17,7 +17,7 @@ all_ports = of.OFPP_FLOOD
 # Handle messages the switch has sent us because it has no
 # matching rule.
 
-def _handle_PacketIn (self, event):
+def _handle_PacketIn (event):
     packet = event.parsed
     if packet.type == packet.ARP_TYPE:
         if packet.payload.opcode == arp.REQUEST:
